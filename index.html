@@ -75,31 +75,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .add-data-btn {
-            display: block;
-            width: 200px;
-            margin: 0 auto;
-            padding: 12px;
-            background-color: var(--accent-color);
-            color: white;
-            text-align: center;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .add-data-btn:hover {
-            background-color: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .add-data-btn i {
-            margin-right: 8px;
-        }
-
         /* Overlay Styles */
         .overlay {
             position: fixed;
@@ -182,20 +157,6 @@
             background-color: #f1f1f1;
         }
 
-        .delete-btn {
-            background-color: var(--danger-color);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .delete-btn:hover {
-            background-color: #d3166b;
-        }
-
         .status-present {
             color: var(--success-color);
             font-weight: bold;
@@ -260,10 +221,6 @@
                 <i class="fas fa-user"></i> Don Carlos Dacir
             </button>
         </div>
-        
-        <a href="https://marco-prepotente.github.io/add-student-data/" class="add-data-btn">
-            <i class="fas fa-plus"></i> Add New Data
-        </a>
     </div>
 
     <div id="student-data-overlay" class="overlay hidden">
@@ -278,7 +235,6 @@
                         <tr>
                             <th>Date</th>
                             <th>Status</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="student-data-body">
@@ -352,7 +308,7 @@
                 if (studentRecords.length === 0) {
                     const row = document.createElement('tr');
                     const emptyCell = document.createElement('td');
-                    emptyCell.colSpan = 3;
+                    emptyCell.colSpan = 2;
                     emptyCell.className = 'empty-message';
                     emptyCell.textContent = 'No submissions yet';
                     row.appendChild(emptyCell);
@@ -363,7 +319,7 @@
                 // Sort by date (newest first)
                 studentRecords.sort((a, b) => new Date(b.date) - new Date(a.date));
                 
-                studentRecords.forEach((record, index) => {
+                studentRecords.forEach((record) => {
                     const row = document.createElement('tr');
                     
                     // Date cell
@@ -379,28 +335,8 @@
                     statusCell.appendChild(statusBadge);
                     row.appendChild(statusCell);
                     
-                    // Action cell
-                    const actionCell = document.createElement('td');
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
-                    deleteBtn.className = 'delete-btn';
-                    deleteBtn.title = 'Delete this entry';
-                    deleteBtn.addEventListener('click', function() {
-                        if (confirm(`Delete submission record for ${formatDate(record.date)}?`)) {
-                            deleteRecord(studentName, index);
-                        }
-                    });
-                    actionCell.appendChild(deleteBtn);
-                    row.appendChild(actionCell);
-                    
                     studentDataBody.appendChild(row);
                 });
-            }
-            
-            function deleteRecord(studentName, index) {
-                allStudentData[studentName].splice(index, 1);
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(allStudentData));
-                displayStudentData(studentName);
             }
             
             function formatDate(dateString) {
@@ -415,4 +351,4 @@
         });
     </script>
 </body>
-</html>
+</html>    
